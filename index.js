@@ -66,14 +66,14 @@ const match = () => {
   }
   setTimeout(() => {
     clickRemember = [];
-  }, 700);
+  }, 1001);
 };
 const unmatch = () => {
   clickRemember.forEach((target) => {
     target.closest(".card").classList.add("card-back");
     setTimeout(() => {
       target.closest(".card").classList.remove("hide", "card-front", "open");
-    }, 800);
+    }, 1000);
   });
   setTimeout(() => {
     clickRemember = [];
