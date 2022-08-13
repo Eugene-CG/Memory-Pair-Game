@@ -1,18 +1,6 @@
 const cardsList = document.querySelector(".cards__list");
 let clickRemember = [];
-class Card {
-  constructor(img) {
-    this.img = img;
-  }
-  createCard() {
-    return `
-    <li class="card__container">
-          <div class="card card-back">
-              <img src="./img/${this.img}">
-          </div>
-      </li>`;
-  }
-}
+
 const startGame = () => {
   let cards = [
     "fool.jpg",
@@ -24,16 +12,20 @@ const startGame = () => {
     "hanged.jpg",
     "justice.jpg",
   ];
-  cards = [...cards, ...cards];
-  shuffleCards(cards);
-  cards = createCardOjects(cards);
-  createAllCards(cards);
+  cards = shuffleCards([...cards, ...cards]);
+  cards.forEach((imgSrc) => {
+    cardsList.innerHTML += createCard(imgSrc);
+  });
 };
 const shuffleCards = (cards) => cards.sort(() => Math.random() - 0.5);
-const createCardOjects = (cards) => cards.map((imgSrc) => new Card(imgSrc));
-const createAllCards = (cards) =>
-  cards.forEach((card) => (cardsList.innerHTML += card.createCard()));
-
+const createCard = (imgSrc) => {
+  return `
+    <li class="card__container">
+          <div class="card card-back">
+              <img src="./img/${imgSrc}">
+          </div>
+      </li>`;
+};
 const flipCard = ({ target }) => {
   if (target.closest(".card") || target.closest("img")) {
     clickRemember = [...clickRemember, target.firstElementChild];
