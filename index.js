@@ -1,5 +1,5 @@
 const cardsList = document.querySelector(".cards__list");
-let clickRemember = [];
+let clicksStorage = [];
 
 const startGame = () => {
   let cards = [
@@ -31,11 +31,11 @@ const createCard = (imgSrc) => {
 const flipCard = (target) => {
   //****************************** * * * * ***/
   if (target.closest(".card")) {
-    clickRemember = [...clickRemember, target.firstElementChild];
+    clicksStorage = [...clicksStorage, target.firstElementChild];
     target.classList.remove("card-back");
     target.classList.add("hide", "open");
 
-    if (clickRemember.length === 2) {
+    if (clicksStorage.length === 2) {
       setTimeout(() => {
         checkMatch();
       }, 1000);
@@ -45,22 +45,22 @@ const flipCard = (target) => {
 const checkMatch = () => {
   if (
     !(
-      clickRemember[0].getAttribute("src") ===
-      clickRemember[1].getAttribute("src")
+      clicksStorage[0].getAttribute("src") ===
+      clicksStorage[1].getAttribute("src")
     )
   )
     checkUnmatch();
-  clickRemember = [];
+  clicksStorage = [];
 };
 const checkUnmatch = () => {
-  clickRemember.forEach((target) => {
+  clicksStorage.forEach((target) => {
     target.closest(".card").classList.add("card-back");
     target.closest(".card").classList.remove("hide", "open");
   });
-  clickRemember = [];
+  clicksStorage = [];
 };
 
 cardsList.addEventListener("click", (event) => {
-  if (!(clickRemember.length === 2)) flipCard(event.target);
+  if (!(clicksStorage.length === 2)) flipCard(event.target);
 });
 window.addEventListener("DOMContentLoaded", startGame);
