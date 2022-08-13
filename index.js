@@ -5,21 +5,14 @@ class Card {
     this.img = img;
   }
   createCard() {
-    const liCardContainer = document.createElement("LI");
-    const divCard = document.createElement("DIV");
-    const image = document.createElement("IMG");
-
-    liCardContainer.classList.add("card__container");
-    divCard.classList.add("card", "card-back");
-
-    image.setAttribute("src", `./img/${this.img}`);
-
-    cardsList.appendChild(liCardContainer);
-    liCardContainer.appendChild(divCard);
-    divCard.appendChild(image);
+    return `
+    <li class="card__container">
+          <div class="card card-back">
+              <img src="./img/${this.img}">
+          </div>
+      </li>`;
   }
 }
-
 const startGame = () => {
   let cards = [
     "fool.jpg",
@@ -33,52 +26,45 @@ const startGame = () => {
   ];
   cards = [...cards, ...cards];
   shuffleCards(cards);
-  cards = cards.map((imgSrc) => {
-    return new Card(imgSrc);
-  });
-  cards.forEach((card) => {
-    card.createCard();
-  });
+  cards = createCardOjects(cards);
+  createAllCards(cards);
 };
 const shuffleCards = (cards) => cards.sort(() => Math.random() - 0.5);
+const createCardOjects = (cards) => cards.map((imgSrc) => new Card(imgSrc));
+const createAllCards = (cards) =>
+  cards.forEach((card) => (cardsList.innerHTML += card.createCard()));
 
 const flipCard = ({ target }) => {
   if (target.closest(".card") || target.closest("img")) {
-    console.log(target.firstChild);
-    clickRemember.push(target.firstChild);
+    clickRemember = [...clickRemember, target.firstElementChild];
     target.closest(".card").classList.remove("card-back");
-    target.closest(".card").classList.add("hide", "card-front", "open");
+    target.closest(".card").classList.add("hide", "open");
 
-    if (clickRemember.length === 2) match();
+    if (clickRemember.length === 2) {
+      setTimeout(() => {
+        checkMatch();
+      }, 1000);
+    }
   }
 };
-const match = () => {
-  console.log(clickRemember[0].getAttribute("src"));
+const checkMatch = () => {
   if (
-    clickRemember[0].getAttribute("src") ===
-    clickRemember[1].getAttribute("src")
-  ) {
-    clickRemember.forEach((target) => {
-      target.closest(".card").classList.add("match");
-    });
-  } else {
-    unmatch();
-  }
-  setTimeout(() => {
-    clickRemember = [];
-  }, 1001);
+    !(
+      clickRemember[0].getAttribute("src") ===
+      clickRemember[1].getAttribute("src")
+    )
+  )
+    checkUnmatch();
+  clickRemember = [];
 };
-const unmatch = () => {
+const checkUnmatch = () => {
   clickRemember.forEach((target) => {
     target.closest(".card").classList.add("card-back");
-    setTimeout(() => {
-      target.closest(".card").classList.remove("hide", "card-front", "open");
-    }, 1000);
+    target.closest(".card").classList.remove("hide", "open");
   });
-  setTimeout(() => {
-    clickRemember = [];
-  }, 800);
+  clickRemember = [];
 };
+
 cardsList.addEventListener("click", (event) => {
   if (!(clickRemember.length === 2)) flipCard(event);
 });
