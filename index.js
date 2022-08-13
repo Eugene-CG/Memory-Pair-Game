@@ -27,7 +27,7 @@ const createCard = (imgSrc) => {
       </li>`;
 };
 const flipCard = ({ target }) => {
-  if (target.closest(".card") || target.closest("img")) {
+  if (target.closest(".card")) {
     clickRemember = [...clickRemember, target.firstElementChild];
     target.closest(".card").classList.remove("card-back");
     target.closest(".card").classList.add("hide", "open");
