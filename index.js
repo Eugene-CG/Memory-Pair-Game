@@ -13,9 +13,11 @@ const startGame = () => {
     "justice.jpg",
   ];
   cards = shuffleCards([...cards, ...cards]);
+  let cardListInnerHtml = ``;
   cards.forEach((imgSrc) => {
-    cardsList.innerHTML += createCard(imgSrc);
+    cardListInnerHtml += createCard(imgSrc);
   });
+  cardsList.innerHTML = cardListInnerHtml;
 };
 const shuffleCards = (cards) => cards.sort(() => Math.random() - 0.5);
 const createCard = (imgSrc) => {
