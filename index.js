@@ -26,11 +26,12 @@ const createCard = (imgSrc) => {
           </div>
       </li>`;
 };
-const flipCard = ({ target }) => {
+const flipCard = (target) => {
+  //****************************** * * * * ***/
   if (target.closest(".card")) {
     clickRemember = [...clickRemember, target.firstElementChild];
-    target.closest(".card").classList.remove("card-back");
-    target.closest(".card").classList.add("hide", "open");
+    target.classList.remove("card-back");
+    target.classList.add("hide", "open");
 
     if (clickRemember.length === 2) {
       setTimeout(() => {
@@ -58,6 +59,6 @@ const checkUnmatch = () => {
 };
 
 cardsList.addEventListener("click", (event) => {
-  if (!(clickRemember.length === 2)) flipCard(event);
+  if (!(clickRemember.length === 2)) flipCard(event.target);
 });
 window.addEventListener("DOMContentLoaded", startGame);
