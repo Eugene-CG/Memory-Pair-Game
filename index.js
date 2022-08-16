@@ -63,6 +63,7 @@ const checkMatch = () => {
 const switchCardState = (target) => {
   target.classList.toggle("card-back");
   target.classList.toggle("open");
+  target.classList.toggle("hide");
 };
 cardsList.addEventListener("click", ({ target }) => {
   if (!(clicksStorage.length === 2) && target.closest(".card")) {
@@ -72,7 +73,7 @@ cardsList.addEventListener("click", ({ target }) => {
     if (clicksStorage.length === 2) {
       setTimeout(() => {
         checkMatch();
-      }, 1000);
+      }, 800);
     }
   }
 });
